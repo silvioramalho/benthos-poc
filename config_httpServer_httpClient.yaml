@@ -1,0 +1,25 @@
+input:
+  label: httpserver001
+  http_server:
+    path: /post
+    timeout: 20s
+output:
+  label: httpclient001
+  http_client:
+    url: http://host.docker.internal:5264/payload
+    verb: POST
+    propagate_response: true
+    batch_as_multipart: false
+    rate_limit: rate10s
+    headers:
+      Content-Type: application/json
+
+rate_limit_resources:
+  - label: rate10s
+    local:
+      count: 10
+      interval: 1s
+  - label: rate20s
+    local:
+      count: 20
+      interval: 1s

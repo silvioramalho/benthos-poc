@@ -1,0 +1,17 @@
+input:
+  label: httpserver001
+  http_server:
+    path: /post
+    timeout: 20s
+    sync_response:
+      status: "200"
+output:
+  broker:
+    pattern: fan_out
+    outputs:
+      - kafka:
+          addresses: [ broker:29092 ]
+          topic: foo_topic
+      - sync_response: {}
+        processors:
+          - bloblang: root = ""

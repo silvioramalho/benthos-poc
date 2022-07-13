@@ -1,0 +1,24 @@
+input:
+  label: kafkaconsumer001
+  kafka:
+    addresses: [broker:29092]
+    topics:
+      - foo_topic
+    consumer_group: "benthos_consumer"
+    checkpoint_limit: 1
+output:
+  label: httpclient001
+  http_client:
+    url: http://host.docker.internal:5264/payload
+    verb: POST
+    propagate_response: false
+    batch_as_multipart: false
+    rate_limit: rate10s
+    headers:
+      Content-Type: application/json
+
+rate_limit_resources:
+  - label: rate10s
+    local:
+      count: 10
+      interval: 1s
