@@ -9,11 +9,11 @@ input:
 output:
   label: httpclient001
   http_client:
-    url: http://host.docker.internal:5264/payload
+    url: http://host.docker.internal:5000/payload
     verb: POST
     propagate_response: false
     batch_as_multipart: false
-    rate_limit: rate10s
+    # rate_limit: rate10s
     headers:
       Content-Type: application/json
 

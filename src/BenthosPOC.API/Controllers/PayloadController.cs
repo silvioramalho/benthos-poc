@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
+
 namespace BenthosPOC.API.Controllers
 {
     [ApiController]
@@ -7,6 +8,7 @@ namespace BenthosPOC.API.Controllers
     public class PayloadController : ControllerBase
     {
         private readonly ILogger<WeatherForecastController> _logger;
+        private static Counter _counter = new Counter();
 
         public PayloadController(ILogger<WeatherForecastController> logger)
         {
@@ -16,10 +18,13 @@ namespace BenthosPOC.API.Controllers
         [HttpPost]
         public ActionResult Post(Payload payload)
         {
-            Console.WriteLine($"{DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")} -  Received: {payload.Id} - {payload.Content}");
+            lock (_counter)
+            {
+                _counter.Inc(1);
+                Console.WriteLine($"{_counter.Value} : {DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")} -  Received: {payload.Id} - {payload.Content}");
 
+            }
             return Ok();
-
         }
     }
 }

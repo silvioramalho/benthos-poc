@@ -3,6 +3,9 @@ input:
   http_server:
     path: /post
     timeout: 20s
+    allowed_verbs:
+      - POST
+    rate_limit: ""
 output:
   label: httpclient001
   http_client:
@@ -18,8 +21,4 @@ rate_limit_resources:
   - label: rate10s
     local:
       count: 10
-      interval: 1s
-  - label: rate20s
-    local:
-      count: 20
       interval: 1s
